@@ -1,0 +1,191 @@
+/* styles.css */
+
+
+.main-outer-div{
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
+
+}
+.background-image{
+
+background-image: url("LastImage.jpg");
+font-family: Arial, Helvetica, sans-serif;
+background-size: cover;
+
+}
+
+
+  .Heading{
+
+    display: flex;
+    justify-content: center;
+    margin-top: 150px;
+    font-size: 100px;
+
+
+  }
+
+
+  .Home-Text{
+
+    display: flex;
+    margin-top: 100px;
+    justify-content: center;
+    color: black;
+    font-size: 70px;
+
+  }
+
+
+  .menu-details{
+
+    opacity: 0.7;
+    position: absolute;
+    margin-top: 900px;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 10px;
+    padding-right: 0px;
+    height: 400px;
+
+    width: 700px;
+}
+
+
+
+.foods-div{
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+
+
+  .top-bar{
+    position: fixed;
+    background-color: black;
+    left: 0;
+    right: 0;
+    top: 0;
+    display: flex;
+    justify-content: space-around;
+    font-size: 50px;
+    opacity: 0.4;
+
+  }
+  
+
+  .Home-tab, .Menu-tab, .Contact-tab{
+
+    color: white;
+    opacity: 0.4;
+
+
+  }
+
+
+   .Home-tab:hover, .Menu-tab:hover, .Contact-tab:hover{
+
+    cursor: pointer;
+    animation: OpacityChange 0.5s;
+    opacity: 1;
+
+  }
+
+
+  @keyframes OpacityChange {
+
+    0%{
+
+    opacity: 0.4;
+
+
+    }
+
+    100%{
+
+      opacity: 1;
+
+
+    }
+
+    
+  }
+
+  .menu-order{
+
+    display: grid;
+    grid-template-columns: 1fr auto ;
+    row-gap: 100px;
+  }
+
+  .food{
+
+    height: 100px;
+    width: 100px;
+
+
+  }
+
+
+  .contact-details{
+
+    display: flex;
+    font-size: 100px;
+    justify-content: center;
+
+    margin-top: 100px;
+
+    z-index: 100;
+    color: black;
+
+
+  }
+
+
+  .food-photos{
+
+    height: 200px;
+    width: 200px;
+
+
+  }
+
+
+  .food-first{
+
+    border-top-left-radius: 10px;
+
+
+
+  }
+
+
+  .food-second{
+
+    border-bottom-left-radius: 10px;
+
+
+  }
+
+  
+
+ .contact-div{
+
+  opacity: 0.7;
+  height: 400px;
+  background-color: antiquewhite;
+  font-size: 50px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 10px;
+
+
+ }
