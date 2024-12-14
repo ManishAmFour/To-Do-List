@@ -1,3 +1,19 @@
+export class ProjectConstructor {
+
+    constructor(Name) {
+       
+        this.Name = Name;
+
+    }
+
+
+    CreateProject(){
+
+        return this.Name;
+
+    }
+
+}
 
 export class ToDoList {
 
@@ -13,21 +29,6 @@ export class ToDoList {
     }
 }
 
-class ProjectConstructor {
 
-    constructor(Name) {
-       
-        this.Name = Name;
-        
-    }
-
-    CreateAnArray(){
-
-        return this.Array;
-
-    }
-
-
-}
 
 

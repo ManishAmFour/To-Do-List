@@ -1,3 +1,7 @@
+// webpack.config.js
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+
 module.exports = {
   mode: "development",
   entry: "./src/index.js",
@@ -6,7 +10,7 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     clean: true,
   },
-  devtool: "cheap-module-eval-source-map", // Updated source map setting
+  devtool: "eval-source-map",
   devServer: {
     watchFiles: ["./src/template.html"],
   },
@@ -15,6 +19,7 @@ module.exports = {
       template: "./src/template.html",
     }),
   ],
+    
   module: {
     rules: [
       {

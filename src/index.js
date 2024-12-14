@@ -1,14 +1,14 @@
-import { ToDoList } from "./document.js";
-
+import { ToDoList , ProjectConstructor } from "./document.js";
 
 DomArrange();
 
+let ProjectList = [];
 function DomArrange(){
 
 document.querySelector(`.create-button`).addEventListener(`click`,()=>{
 
 let InputFields = document.createElement(`div`);
-InputFields.innerHTML = `<div><input class="input-title input-fields"><input class="input-description input-fields"><input class="input-dueDate input-fields"><input class="input-priority input-fields"><input class="input-notes input-fields"><input class="input-checklist input-fields"><button class="enter-button">Enter</button></div>`
+InputFields.innerHTML = `<div><input class="input-title input-fields"><button class="enter-button">Enter</button></div>`
 
 document.getElementById(`content`).appendChild(InputFields);
 
@@ -17,33 +17,62 @@ AddingToDo();
 });
 }
 
-export function AddingToDo(){
+function AddingToDo(){
 
 if(document.querySelector(`.enter-button`) !== null){    
 document.querySelector(`.enter-button`).addEventListener(`click`,()=>{
     
     let inputTitle = document.querySelector(`.input-title`).value;
-    let inputDescription = document.querySelector(`.input-description`).value;
-    let inputDueDate = document.querySelector(`.input-dueDate`).value;
-    let inputPriority = document.querySelector(`.input-priority`).value;
-    let inputNotes = document.querySelector(`.input-notes`).value;
-    let inputChecklist = document.querySelector(`.input-checklist`).value;
-    
-    let NewToDo = new ToDoList(`${inputTitle}`,`${inputDescription}`,`${inputDueDate}`,`${inputPriority}`,`${inputNotes}`,`${inputChecklist}`);
+    let NewToDo = new ProjectConstructor(`${inputTitle}`);
 
 
-    console.log(NewToDo);
-    
+    ProjectList.push(NewToDo.CreateProject());
+    localStorage.setItem(`ProjectList`, JSON.stringify(ProjectList))
+    document.querySelector(`.input-title`).value = ``;
+    CreatingTheProjectDiv();
+    RenderTheProject();
+
+
+})}}
+
+
+function CreatingTheProjectDiv(){
+
+    let LatestDiv;
+
+    JSON.parse(localStorage.getItem(`ProjectList`)).forEach((Project,index)=>{
+
+        LatestDiv = index;
+
+
+    })
+
+document.querySelector(`.project-list`).innerHTML += `<div class="new-div" data-project-no="${LatestDiv}"></div>`
+
+}
+
+
+function RenderTheProject(){
+
+document.querySelectorAll(`.new-div`).forEach((NewDiv)=>{
+
+  
+JSON.parse(localStorage.getItem(`ProjectList`)).forEach((Project,index)=>{
+
+
+if(NewDiv.dataset.projectNo === String (index)){
+
+    NewDiv.innerHTML = Project
+
+}
+
 
 
 })
-}
+
+})
 
 }
-
-export default DomArrange;
-
-
 
 
 
