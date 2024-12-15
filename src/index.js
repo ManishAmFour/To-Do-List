@@ -1,6 +1,5 @@
-import { ToDoList} from "./document.js";
-
-DomArrange();
+import { ProjectCreation, ToDoList} from "./document.js";
+import './styles.css';
 
 let List = JSON.parse(localStorage.getItem(`List`));
 let EmptyToDo = JSON.parse(localStorage.getItem(`EmptyToDo`));
@@ -16,6 +15,9 @@ if(EmptyToDo === null){
 
     EmptyToDo = [];
 }
+
+
+DomArrange();
 function DomArrange(){
 
 document.querySelector(`.create-button`).addEventListener(`click`,()=>{
@@ -23,12 +25,6 @@ document.querySelector(`.create-button`).addEventListener(`click`,()=>{
 let InputFields = document.createElement(`div`);
 InputFields.innerHTML = `<div>
 <input class="input-projectName input-fields">
-<input class="input-title input-fields">
-<input class="input-description input-fields">
-<input class="input-dueDate input-fields">
-<input class="input-priority input-fields">
-<input class="input-notes input-fields">
-<input class="input-checklist input-fields">
 <button class="enter-button">Enter</button>
 </div>`
 
@@ -42,19 +38,12 @@ function CreationOfTodo(){
 document.querySelector(`.enter-button`).addEventListener(`click`,()=>{
 
 let ProjectName  = document.querySelector(`.input-projectName`).value;
-let Title  = document.querySelector(`.input-title`).value;
-let description  = document.querySelector(`.input-description`).value;
-let dueDate  = document.querySelector(`.input-dueDate`).value;
-let priority  = document.querySelector(`.input-priority`).value;
-let notes  = document.querySelector(`.input-notes`).value;
-let checklist  = document.querySelector(`.input-checklist`).value;
-        
-let NewObject = new ToDoList(ProjectName,Title,description,dueDate,priority,notes,checklist);
+
+let NewObject = new ProjectCreation(ProjectName);
 
 List.push(NewObject);
 SavingTheList();
-CreatingEmptyToDo();
-RenderToDo();
+RenderProjects();
 
 })
 }
@@ -66,42 +55,155 @@ localStorage.setItem(`List`, JSON.stringify(List));
 
 }
 
-function CreatingEmptyToDo(){
+RenderProjects();
 
-    let ToDo = `<div>First</div>`
-    EmptyToDo.push(ToDo);
-    SavingEmptyToDo();
-
-
-}
-RenderToDo();
-
-
-function RenderToDo(){
+function RenderProjects(){
 
     let BigDiv = ``;
 
     List.forEach((element,index1)=>{
 
-        EmptyToDo.forEach((div,index2)=>{
+        BigDiv += `<div class="Project Project-${index1}" data-project-id="${index1}" >
+        <div class="element-name">${element.ProjectName}</div>
+        </div>`;
 
-            if(index1 === index2){
-
-                BigDiv += `<div>${element.ProjectName}</div>`;
-            }
-
-        })
     })
 
 
 document.querySelector(`.project-list`).innerHTML = `${BigDiv}`;
+AdditionOfToDo();
 
 
 }
 
-function SavingEmptyToDo(){
+function AdditionOfToDo(){
 
-    localStorage.setItem(`EmptyToDo`, JSON.stringify(EmptyToDo));
+document.querySelectorAll(`.Project`).forEach((Name)=>{
+
+Name.addEventListener(`click`,()=>{
+
+    let InputTitle = document.createElement(`input`);
+    let EnterButton = document.createElement(`button`);
+    EnterButton.innerHTML = `<div class="enter-button-todo">Enter</div>`;
+    document.querySelector(`.Project-${Name.dataset.projectId}`).appendChild(InputTitle);
+   document.querySelector(`.Project-${Name.dataset.projectId}`).appendChild(EnterButton);
+
+
+
+})
+
+  
+
+
+})
 
 
 }
+
+
+
+/*
+
+function EditTheToDo(){
+
+    document.querySelectorAll(`.project-name`).forEach((div)=>{
+
+
+    div.addEventListener(`click`,()=>{
+
+    List.forEach((Project,index)=>{
+        if(Project.ProjectName === div.innerText){
+
+            let element = List[index];
+
+            let InputFields = document.createElement(`div`);
+    InputFields.innerHTML = `<div>
+    <input class="editInput-title input-fields">
+    <input class="editInput-description input-fields">
+    <input class="editInput-dueDate input-fields">
+    <input class="editInput-priority input-fields">
+    <input class="editInput-notes input-fields">
+    <input class="editInput-checklist input-fields">
+    <button class="enter-button-edit">Enter</button>
+    <button class="delete-button-edit">Delete</button>
+
+    </div>`
+
+
+    document.getElementById(`content`).appendChild(InputFields);
+
+
+    document.querySelectorAll(`.enter-button-edit`).forEach((edit)=>{
+
+        edit.addEventListener(`click`,()=>{
+
+            element.title = document.querySelector(`.editInput-title`).value;
+
+            
+            element.description = document.querySelector(`.editInput-description`).value;
+            element.dueDate = document.querySelector(`.editInput-dueDate`).value;
+            element.priority = document.querySelector(`.editInput-priority`).value;
+            element.notes = document.querySelector(`.editInput-notes`).value;
+            element.checklist = document.querySelector(`.editInput-checklist`).value;
+            
+            SavingTheList();
+    
+        })
+        
+        
+
+    })
+
+
+         
+        }
+
+
+
+    })
+
+
+
+
+})
+
+   
+        
+    })
+
+}
+
+
+
+function DeleteToDo(element){
+
+    document.querySelectorAll(`.delete-button-edit`).forEach((button)=>{
+
+        button.addEventListener(`click`,()=>{
+
+
+
+            List.forEach((Name,index)=>{
+
+                if(Name.ProjectName === element.ProjectName){
+
+                      List.splice(index,1);  
+
+
+                }
+
+                SavingTheList();
+
+
+            })
+    
+            RenderToDo();
+    
+        })
+
+    })
+
+
+
+}
+*/

@@ -14,5 +14,20 @@ export class ToDoList {
 }
 
 
+export class ProjectCreation {
+
+    constructor(Name){
+
+        this.ProjectName = Name;
+        this.Array = [];
+
+
+    }
+
+
+
+}
+
+
 
 
