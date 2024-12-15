@@ -1,80 +1,107 @@
-import { ToDoList , ProjectConstructor } from "./document.js";
+import { ToDoList} from "./document.js";
 
 DomArrange();
 
-let ProjectList = [];
+let List = JSON.parse(localStorage.getItem(`List`));
+let EmptyToDo = JSON.parse(localStorage.getItem(`EmptyToDo`));
+
+
+if(List === null){
+
+List = [];
+}
+
+
+if(EmptyToDo === null){
+
+    EmptyToDo = [];
+}
 function DomArrange(){
 
 document.querySelector(`.create-button`).addEventListener(`click`,()=>{
 
 let InputFields = document.createElement(`div`);
-InputFields.innerHTML = `<div><input class="input-title input-fields"><button class="enter-button">Enter</button></div>`
+InputFields.innerHTML = `<div>
+<input class="input-projectName input-fields">
+<input class="input-title input-fields">
+<input class="input-description input-fields">
+<input class="input-dueDate input-fields">
+<input class="input-priority input-fields">
+<input class="input-notes input-fields">
+<input class="input-checklist input-fields">
+<button class="enter-button">Enter</button>
+</div>`
 
 document.getElementById(`content`).appendChild(InputFields);
-
-AddingToDo();
-
+CreationOfTodo();
 });
 }
 
-function AddingToDo(){
+function CreationOfTodo(){
 
-if(document.querySelector(`.enter-button`) !== null){    
 document.querySelector(`.enter-button`).addEventListener(`click`,()=>{
-    
-    let inputTitle = document.querySelector(`.input-title`).value;
-    let NewToDo = new ProjectConstructor(`${inputTitle}`);
+
+let ProjectName  = document.querySelector(`.input-projectName`).value;
+let Title  = document.querySelector(`.input-title`).value;
+let description  = document.querySelector(`.input-description`).value;
+let dueDate  = document.querySelector(`.input-dueDate`).value;
+let priority  = document.querySelector(`.input-priority`).value;
+let notes  = document.querySelector(`.input-notes`).value;
+let checklist  = document.querySelector(`.input-checklist`).value;
+        
+let NewObject = new ToDoList(ProjectName,Title,description,dueDate,priority,notes,checklist);
+
+List.push(NewObject);
+SavingTheList();
+CreatingEmptyToDo();
+RenderToDo();
+
+})
+}
 
 
-    ProjectList.push(NewToDo.CreateProject());
-    localStorage.setItem(`ProjectList`, JSON.stringify(ProjectList))
-    document.querySelector(`.input-title`).value = ``;
-    CreatingTheProjectDiv();
-    RenderTheProject();
+function SavingTheList(){
+
+localStorage.setItem(`List`, JSON.stringify(List));
+
+}
+
+function CreatingEmptyToDo(){
+
+    let ToDo = `<div>First</div>`
+    EmptyToDo.push(ToDo);
+    SavingEmptyToDo();
 
 
-})}}
+}
+RenderToDo();
 
 
-function CreatingTheProjectDiv(){
+function RenderToDo(){
 
-    let LatestDiv;
+    let BigDiv = ``;
 
-    JSON.parse(localStorage.getItem(`ProjectList`)).forEach((Project,index)=>{
+    List.forEach((element,index1)=>{
 
-        LatestDiv = index;
+        EmptyToDo.forEach((div,index2)=>{
 
+            if(index1 === index2){
 
+                BigDiv += `<div>${element.ProjectName}</div>`;
+            }
+
+        })
     })
 
-document.querySelector(`.project-list`).innerHTML += `<div class="new-div" data-project-no="${LatestDiv}"></div>`
+
+document.querySelector(`.project-list`).innerHTML = `${BigDiv}`;
+
 
 }
 
+function SavingEmptyToDo(){
 
-function RenderTheProject(){
+    localStorage.setItem(`EmptyToDo`, JSON.stringify(EmptyToDo));
 
-document.querySelectorAll(`.new-div`).forEach((NewDiv)=>{
-
-  
-JSON.parse(localStorage.getItem(`ProjectList`)).forEach((Project,index)=>{
-
-
-if(NewDiv.dataset.projectNo === String (index)){
-
-    NewDiv.innerHTML = Project
 
 }
-
-
-
-})
-
-})
-
-}
-
-
-
-
-
