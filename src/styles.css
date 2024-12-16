@@ -1,6 +1,17 @@
 
-.Project{
+.element-name {
 
+    display: inline-block;
+
+}
+
+
+.project-list{
+
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 50px;
 
 
 }

@@ -1,8 +1,74 @@
 import { ProjectCreation, ToDoList} from "./document.js";
 import './styles.css';
+import SpecificPresentation from "./SpecificPresentation.js";
 
 let List = JSON.parse(localStorage.getItem(`List`));
 let EmptyToDo = JSON.parse(localStorage.getItem(`EmptyToDo`));
+
+
+console.log(List);
+
+function RenderFullList(){
+
+    document.querySelectorAll(`.Project`).forEach((div)=>{
+
+        List.forEach((singular)=>{
+        
+            if(singular.ProjectName === div.innerText){
+
+                singular.Array.forEach((element)=>{
+
+                    div.innerHTML += `<div>${element.title}</div>
+                    <div>${element.description}</div>
+                    <div>${element.dueDate}</div>
+                    <div>${element.priority}</div>
+                    `
+
+
+                })
+
+
+            }
+
+
+        })
+
+
+
+    })
+
+
+
+    document.querySelectorAll(`.Project`).forEach((div)=>{
+
+        List.forEach((element)=>{
+
+
+                div.addEventListener(`click`,()=>{
+
+
+                    SpecificPresentation(div.innerHTML);
+        
+        
+                })
+
+
+            
+
+
+        })
+
+
+
+
+        
+
+
+    })
+
+
+}
+
 
 
 if(List === null){
@@ -28,12 +94,19 @@ InputFields.innerHTML = `<div>
 <button class="enter-button">Enter</button>
 </div>`
 
-document.getElementById(`content`).appendChild(InputFields);
-CreationOfTodo();
+
+    
+        document.getElementById(`content`).appendChild(InputFields);
+
+        
+    
+
+CreationOfTodo(InputFields);
+
 });
 }
 
-function CreationOfTodo(){
+function CreationOfTodo(InputFields){
 
 document.querySelector(`.enter-button`).addEventListener(`click`,()=>{
 
@@ -44,7 +117,8 @@ let NewObject = new ProjectCreation(ProjectName);
 List.push(NewObject);
 SavingTheList();
 RenderProjects();
-
+document.getElementById(`content`).removeChild(InputFields);
+//RenderFullList();
 })
 }
 
@@ -64,7 +138,8 @@ function RenderProjects(){
     List.forEach((element,index1)=>{
 
         BigDiv += `<div class="Project Project-${index1}" data-project-id="${index1}" >
-        <div class="element-name">${element.ProjectName}</div>
+        <div class="element-name" data-project-id = "${index1}">${element.ProjectName}</div>
+        <button class="edit-button" data-project-id = "${index1}" data-project-number ="${element.ProjectName}" >Edit</button>
         </div>`;
 
     })
@@ -78,132 +153,86 @@ AdditionOfToDo();
 
 function AdditionOfToDo(){
 
-document.querySelectorAll(`.Project`).forEach((Name)=>{
+document.querySelectorAll(`.edit-button`).forEach((ProjectName)=>{
 
-Name.addEventListener(`click`,()=>{
+    ProjectName.addEventListener(`click`,()=>{
 
-    let InputTitle = document.createElement(`input`);
-    let EnterButton = document.createElement(`button`);
-    EnterButton.innerHTML = `<div class="enter-button-todo">Enter</div>`;
-    document.querySelector(`.Project-${Name.dataset.projectId}`).appendChild(InputTitle);
-   document.querySelector(`.Project-${Name.dataset.projectId}`).appendChild(EnterButton);
+        
 
-
-
-})
-
-  
-
-
-})
-
-
-}
-
-
-
-/*
-
-function EditTheToDo(){
-
-    document.querySelectorAll(`.project-name`).forEach((div)=>{
+        let InputTitle = document.createElement(`input`);
+        let InputDescription = document.createElement(`input`);
+        let InputDueDate = document.createElement(`input`);
+        let InputNotes = document.createElement(`input`);
+        let InputPriority = document.createElement(`input`);
+        let EnterButton = document.createElement(`button`);
+        EnterButton.innerHTML = `<div class="enter-button-todo">Enter</div>`;
+       
+       
+        document.querySelector(`.Project-${ProjectName.dataset.projectId}`).appendChild(InputTitle);
+       document.querySelector(`.Project-${ProjectName.dataset.projectId}`).appendChild(InputDescription);
+       document.querySelector(`.Project-${ProjectName.dataset.projectId}`).appendChild(InputDueDate);
+       document.querySelector(`.Project-${ProjectName.dataset.projectId}`).appendChild(InputNotes);
+       document.querySelector(`.Project-${ProjectName.dataset.projectId}`).appendChild(InputPriority);
+       document.querySelector(`.Project-${ProjectName.dataset.projectId}`).appendChild(EnterButton);
 
 
-    div.addEventListener(`click`,()=>{
 
-    List.forEach((Project,index)=>{
-        if(Project.ProjectName === div.innerText){
+       document.querySelectorAll(`.enter-button-todo`).forEach((enterButton)=>{
 
-            let element = List[index];
-
-            let InputFields = document.createElement(`div`);
-    InputFields.innerHTML = `<div>
-    <input class="editInput-title input-fields">
-    <input class="editInput-description input-fields">
-    <input class="editInput-dueDate input-fields">
-    <input class="editInput-priority input-fields">
-    <input class="editInput-notes input-fields">
-    <input class="editInput-checklist input-fields">
-    <button class="enter-button-edit">Enter</button>
-    <button class="delete-button-edit">Delete</button>
-
-    </div>`
-
-
-    document.getElementById(`content`).appendChild(InputFields);
-
-
-    document.querySelectorAll(`.enter-button-edit`).forEach((edit)=>{
-
-        edit.addEventListener(`click`,()=>{
-
-            element.title = document.querySelector(`.editInput-title`).value;
-
-            
-            element.description = document.querySelector(`.editInput-description`).value;
-            element.dueDate = document.querySelector(`.editInput-dueDate`).value;
-            element.priority = document.querySelector(`.editInput-priority`).value;
-            element.notes = document.querySelector(`.editInput-notes`).value;
-            element.checklist = document.querySelector(`.editInput-checklist`).value;
-            
-            SavingTheList();
+        enterButton.addEventListener(`click`,()=>{
     
-        })
-        
-        
 
-    })
+            if(InputTitle.value !== ``){
 
+            let NewObject = new ToDoList(InputTitle.value,InputDescription.value,InputDueDate.value,InputNotes.value,InputPriority.value);
+           
+                (ProjectName.dataset.projectNumber);
 
-         
-        }
+            List.forEach((Individual)=>{
 
+                if(ProjectName.dataset.projectNumber === Individual.ProjectName){
+   
 
-
-    })
-
-
-
-
-})
+                 Individual.Array.push(NewObject);
+                    SavingTheList();
+                   }
+   
+console.log(List);
 
    
-        
-    })
-
-}
-
-
-
-function DeleteToDo(element){
-
-    document.querySelectorAll(`.delete-button-edit`).forEach((button)=>{
-
-        button.addEventListener(`click`,()=>{
+               })
+   
+               document.querySelector(`.Project-${ProjectName.dataset.projectId}`).removeChild(InputTitle);
+               document.querySelector(`.Project-${ProjectName.dataset.projectId}`).removeChild(InputDescription);
+               document.querySelector(`.Project-${ProjectName.dataset.projectId}`).removeChild(InputDueDate);
+               document.querySelector(`.Project-${ProjectName.dataset.projectId}`).removeChild(InputNotes);
+               document.querySelector(`.Project-${ProjectName.dataset.projectId}`).removeChild(InputPriority);
+               document.querySelector(`.Project-${ProjectName.dataset.projectId}`).removeChild(EnterButton);
 
 
-
-            List.forEach((Name,index)=>{
-
-                if(Name.ProjectName === element.ProjectName){
-
-                      List.splice(index,1);  
+            }
+           else{
+            
+            alert(`Entert The input first`);
 
 
-                }
-
-                SavingTheList();
+           }
 
 
-            })
-    
-            RenderToDo();
-    
         })
 
+
+       })
+
+
     })
 
 
 
+})
+
+
+
 }
-*/
+
+//RenderFullList();

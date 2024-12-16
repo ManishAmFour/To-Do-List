@@ -1,8 +1,7 @@
 export class ToDoList {
 
-    constructor(ProjectName,title, description, dueDate, priority, notes, checklist) {
+    constructor(title, description, dueDate, priority, notes, checklist) {
 
-        this.ProjectName = ProjectName;
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
