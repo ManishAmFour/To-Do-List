@@ -5,6 +5,7 @@ import DisplaySpecificTodo from "./SpecificPresentation.js";
 let List = JSON.parse(localStorage.getItem(`List`));
 let EmptyToDo = JSON.parse(localStorage.getItem(`EmptyToDo`));
 
+DomArrange();
 
 RenderFullList();
 
@@ -16,7 +17,7 @@ function RenderFullList(){
 
     document.getElementById(`content`).appendChild(ListDiv);
 
-    let ListBigDiv;
+    let ListBigDiv = ``;
 
     if(List !== null){
 
@@ -26,18 +27,21 @@ function RenderFullList(){
 
         element.Array.forEach((IndividualElement)=>{
 
-            ListBigDiv += `<div>${IndividualElement.title}</div>
+            ListBigDiv += `
+            <div class="render-list">
+            <div>${IndividualElement.title}</div>
             <div>${IndividualElement.priority}</div>
             <div>${IndividualElement.notes}</div>
             <div>${IndividualElement.dueDate}</div>
             <div>${IndividualElement.description}</div>
-
+            </div>
             `
 
 
         })
 
-        
+
+    
         document.querySelector(`.list-div`).innerHTML = ListBigDiv;
         }
     })
@@ -58,27 +62,26 @@ if(EmptyToDo === null){
     EmptyToDo = [];
 }
 
+let Meter = true;
 
-DomArrange();
 function DomArrange(){
 
 document.querySelector(`.create-button`).addEventListener(`click`,()=>{
 
 let InputFields = document.createElement(`div`);
-InputFields.innerHTML = `<div>
+InputFields.innerHTML = `<div class="full-project-field">
 <input class="input-projectName input-fields">
 <button class="enter-button">Enter</button>
 </div>`
 
 
-    
-        document.getElementById(`content`).appendChild(InputFields);
+    if(Meter === true){
 
-        
-    
-
-CreationOfTodo(InputFields);
-
+    document.getElementById(`content`).appendChild(InputFields);
+    CreationOfTodo(InputFields,Meter);
+    Meter = false;
+    }
+   
 });
 }
 
@@ -90,10 +93,21 @@ let ProjectName  = document.querySelector(`.input-projectName`).value;
 
 let NewObject = new ProjectCreation(ProjectName);
 
+if(ProjectName !== ``){
+
 List.push(NewObject);
 SavingTheList();
 RenderProjects();
+Meter = true;
 document.getElementById(`content`).removeChild(InputFields);
+}else{
+
+    alert(`Enter Valid Project Name`);
+
+}
+
+
+
 })
 }
 
@@ -114,8 +128,8 @@ function RenderProjects(){
 
         BigDiv += `<div class="Project Project-${index1}" data-project-id="${index1}" >
         <div class="element-name" data-project-id = "${index1}">${element.ProjectName}</div>
-        <button class="edit-button" data-project-id = "${index1}" data-project-number ="${element.ProjectName}" >Edit</button>
         <button class="show-button" data-project-id = "${index1}" data-project-number ="${element.ProjectName}" >Show</button>
+        <button class="delete-button" data-project-id = "${index1}" data-project-number ="${element.ProjectName}">Delete</button>
         </div>`;
 
     })
@@ -123,12 +137,15 @@ function RenderProjects(){
 
 document.querySelector(`.project-list`).innerHTML = `${BigDiv}`;
 DisplaySpecificTodo(List);
+ProjectDeletion();
 
 }
 
 AdditionOfToDo();
 
 function AdditionOfToDo(){
+
+let Meter = true;
 
 document.querySelector(`.create-todo-button`).addEventListener(`click`,()=>{
 
@@ -142,9 +159,6 @@ document.querySelector(`.create-todo-button`).addEventListener(`click`,()=>{
         EnterButton.innerHTML = `<div class="enter-button-todo">Enter</div>`;
        
     InputProject.classList.add(`project-select`);
-
-
-
 
     let OptionSelector = ``;
 
@@ -170,27 +184,30 @@ document.querySelectorAll(`.project-list`).forEach((List)=>{
 
 })
 
-document.getElementById(`content`).appendChild(InputProject);
-document.getElementById(`content`).appendChild(InputTitle);
-document.getElementById(`content`).appendChild(InputDescription);
-document.getElementById(`content`).appendChild(InputDueDate);
-document.getElementById(`content`).appendChild(InputNotes);
-document.getElementById(`content`).appendChild(InputPriority);
-document.getElementById(`content`).appendChild(EnterButton);
+document.querySelectorAll(`.full-project-field`).forEach((Input)=>{
+
+    Input.classList.add(`display-none`);
 
 
 
-
-       
-      /*  document.querySelector(`.Project-${ProjectName.dataset.projectId}`).appendChild(InputTitle);
-       document.querySelector(`.Project-${ProjectName.dataset.projectId}`).appendChild(InputDescription);
-       document.querySelector(`.Project-${ProjectName.dataset.projectId}`).appendChild(InputDueDate);
-       document.querySelector(`.Project-${ProjectName.dataset.projectId}`).appendChild(InputNotes);
-       document.querySelector(`.Project-${ProjectName.dataset.projectId}`).appendChild(InputPriority);
-       document.querySelector(`.Project-${ProjectName.dataset.projectId}`).appendChild(EnterButton);
-*/
+})
 
 
+if(Meter === true){
+
+    document.getElementById(`content`).appendChild(InputProject);
+    document.getElementById(`content`).appendChild(InputTitle);
+    document.getElementById(`content`).appendChild(InputDescription);
+    document.getElementById(`content`).appendChild(InputDueDate);
+    document.getElementById(`content`).appendChild(InputNotes);
+    document.getElementById(`content`).appendChild(InputPriority);
+    document.getElementById(`content`).appendChild(EnterButton);
+
+
+    Meter = false;
+
+}
+ 
       document.querySelector(`.enter-button-todo`).addEventListener(`click`,()=>{
         
         
@@ -212,7 +229,9 @@ document.getElementById(`content`).appendChild(EnterButton);
 
        document.querySelector(`.create-button`).classList.remove(`display-none`);
        document.querySelector(`.list-div`).classList.remove(`display-none`);
-       
+
+
+
        document.querySelectorAll(`.project-list`).forEach((List)=>{
        
            List.classList.remove(`display-none`);
@@ -220,6 +239,8 @@ document.getElementById(`content`).appendChild(EnterButton);
        
        })
        
+
+  
        
        document.getElementById(`content`).removeChild(InputTitle);
        document.getElementById(`content`).removeChild(InputDescription);
@@ -243,16 +264,38 @@ document.getElementById(`content`).appendChild(EnterButton);
 
 })
 
-      
-       
+})
+
+ 
 
 
-    
+}
+
+function ProjectDeletion(){
+
+document.querySelectorAll(`.delete-button`).forEach((button)=>{
+
+button.addEventListener(`click`,()=>{
+
+List.forEach((element,index)=>{
+
+if(element.ProjectName === button.dataset.projectNumber){
+
+    List.splice(index,1);
+
+    SavingTheList();
+    RenderProjects();
+
+}
+
 
 
 })
 
- 
+
+})
+
+})
 
 
 }

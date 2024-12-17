@@ -7,9 +7,6 @@ document.querySelectorAll(`.show-button`).forEach((Show)=>{
 
 Show.addEventListener(`click`,()=>{
 
-
-
-
 List.forEach((element)=>{
 
 
@@ -18,11 +15,13 @@ List.forEach((element)=>{
 
         if(element.Array.length !== 0){
 
-            let LargeDiv;
+            let LargeDiv = ``;
 
             element.Array.forEach((Piece)=>{
             
-            LargeDiv += `<div>
+            LargeDiv += `
+            <div class="specific-list">
+            <div>
             ${Piece.title}
             </div>
             <div>
@@ -36,6 +35,7 @@ List.forEach((element)=>{
             </div>
             <div>
               ${Piece.notes}  
+            </div>
             </div>
             `
 

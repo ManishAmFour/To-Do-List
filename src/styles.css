@@ -13,6 +13,19 @@
 
 }
 
+.render-list{
+
+display: flex;
+margin-bottom: 30px;
+
+}
+
+.specific-list{
+    display: flex;
+
+
+}
+
 
 .element-name {
 
