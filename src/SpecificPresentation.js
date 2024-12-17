@@ -1,19 +1,78 @@
+import { el } from "date-fns/locale"
 
-export default function SpecificPresentation(div){
+export default function DisplaySpecificTodo(List){
 
-document.querySelector(`.project-list`).innerHTML = div;
 
-let backButton = document.createElement(`button`);
+document.querySelectorAll(`.show-button`).forEach((Show)=>{
 
-backButton.innerHTML = `<div class="go-back">Back</div>`
+Show.addEventListener(`click`,()=>{
 
-document.querySelector(`.project-list`).appendChild(backButton);
 
-document.querySelector(`.go-back`).addEventListener(`click`,()=>{
 
-window.location.reload();
+
+List.forEach((element)=>{
+
+
+    if(element.ProjectName === Show.dataset.projectNumber){
+
+
+        if(element.Array.length !== 0){
+
+            let LargeDiv;
+
+            element.Array.forEach((Piece)=>{
+            
+            LargeDiv += `<div>
+            ${Piece.title}
+            </div>
+            <div>
+              ${Piece.description}  
+            </div>
+            <div>
+              ${Piece.dueDate}  
+            </div>
+            <div>
+              ${Piece.priority}  
+            </div>
+            <div>
+              ${Piece.notes}  
+            </div>
+            `
+
+
+
+        })
+
+        LargeDiv += `<button class="go-back" >Go Back</button>`;
+
+
+        document.getElementById(`content`).innerHTML = LargeDiv;
+
+        document.querySelector(`.go-back`).addEventListener(`click`,()=>{
+
+            window.location.reload();
+        
+        
+        })
+        
+        }else{
+
+            alert(`Empty Project Click Edit to add Todo`)
+
+
+        }
+
+
+    }
+
 
 
 })
+
+
+})
+
+})
+
 
 }
