@@ -16,11 +16,19 @@
 .render-list{
 
 display: flex;
-margin-bottom: 30px;
+
+}
+
+
+.project-title{
+
+    margin-top: 20px;
+
 
 }
 
 .specific-list{
+    
     display: flex;
 
 

@@ -1,6 +1,7 @@
 import { ProjectCreation, ToDoList} from "./document.js";
 import './styles.css';
 import DisplaySpecificTodo from "./SpecificPresentation.js";
+//import {  format, formatDistance, formatRelative, subDays } from 'date-fns'
 
 let List = JSON.parse(localStorage.getItem(`List`));
 let EmptyToDo = JSON.parse(localStorage.getItem(`EmptyToDo`));
@@ -8,6 +9,7 @@ let EmptyToDo = JSON.parse(localStorage.getItem(`EmptyToDo`));
 DomArrange();
 
 RenderFullList();
+
 
 function RenderFullList(){
 
@@ -18,14 +20,21 @@ function RenderFullList(){
     document.getElementById(`content`).appendChild(ListDiv);
 
     let ListBigDiv = ``;
+    let ProjectHeading;
 
     if(List !== null){
 
     List.forEach((element)=>{
+        
+        ProjectHeading = `<div class="project-title">${element.ProjectName}</div>`;
+        ListBigDiv += ProjectHeading;
 
         if(element.Array.length !== 0){
 
         element.Array.forEach((IndividualElement)=>{
+
+
+
 
             ListBigDiv += `
             <div class="render-list">
@@ -39,12 +48,17 @@ function RenderFullList(){
 
 
         })
-
-
-    
-        document.querySelector(`.list-div`).innerHTML = ListBigDiv;
         }
+
+
+
+
     })
+
+
+    document.querySelector(`.list-div`).innerHTML = ListBigDiv;
+
+
     }
 
 }
@@ -153,6 +167,8 @@ document.querySelector(`.create-todo-button`).addEventListener(`click`,()=>{
         let InputTitle = document.createElement(`input`);
         let InputDescription = document.createElement(`input`);
         let InputDueDate = document.createElement(`input`);
+        InputDueDate.type = "date";
+
         let InputNotes = document.createElement(`input`);
         let InputPriority = document.createElement(`input`);
         let EnterButton = document.createElement(`button`);
@@ -210,8 +226,7 @@ if(Meter === true){
  
       document.querySelector(`.enter-button-todo`).addEventListener(`click`,()=>{
         
-        
-        if(InputTitle.value !== `` && InputDescription.value !== `` && InputDueDate.value !== `` && InputNotes.value !== `` && InputPriority.value !== ``){
+    if(InputTitle.value !== `` && InputDescription.value !== `` && InputDueDate.value !== `` && InputNotes.value !== `` && InputPriority.value !== ``){
 
     let NewObject = new ToDoList(InputTitle.value,InputDescription.value,InputDueDate.value,InputNotes.value,InputPriority.value);
 
@@ -249,7 +264,8 @@ if(Meter === true){
        document.getElementById(`content`).removeChild(InputPriority);
        document.getElementById(`content`).removeChild(EnterButton);
 
-       window.location.reload();
+
+       
 
     }
    else{
