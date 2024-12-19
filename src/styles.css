@@ -1,4 +1,78 @@
 
+.default-button{
+
+    position: fixed;
+    top: 210px;
+    left: 3;
+    z-index: 100;
+    background-color: white;
+    border-style: none;
+    font-size: 18px;
+    border-radius: 10px;
+    padding: 10px;
+
+}
+
+.default-button:hover{
+
+    cursor: pointer;
+    animation: DefaultAnim ease 0.3s;
+    background-color: black;
+    color: white;
+}
+
+
+@keyframes DefaultAnim {
+    
+    0%{
+
+        background-color: white;
+        color: black;
+
+    }
+    
+
+    100%{
+
+        background-color: black;
+        color: white;
+    }
+}
+
+.create-todo-button{
+
+
+    margin-top: 60px;
+
+}
+
+
+.top-bar{
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background-color: black;
+
+}
+
+
+.side-bar{
+
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    top: 100px;
+    width: 200px;
+    
+    background-color: yellow;
+
+
+
+}
+
 
 .list-div{
 
@@ -27,6 +101,44 @@ display: flex;
 
 }
 
+.full-project-field{
+
+    animation: appearing ease 0.3s;
+    position: fixed;
+    margin-left: 550px;
+    margin-top: 400px;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    row-gap: 30px;
+    padding: 20px;
+    border-style: solid;
+
+}
+
+@keyframes appearing {
+
+    0%{
+
+        opacity: 0;
+
+    }
+
+    100%{
+
+        opacity: 1;
+
+    }
+    
+}
+
+
+.input-projectName,.enter-button{
+
+    font-size: 50px;
+}
+
 .specific-list{
     
     display: flex;
@@ -44,11 +156,15 @@ display: flex;
 
 .project-list{
 
-    margin-top: 60px;
-    display: flex;
-    flex-direction: column;
-    row-gap: 50px;
+    position: fixed; 
+    width: 200px;
+    background-color: aqua;
+    left: 0;
+    top: 350px;
+    bottom: 0;
 
+    z-index: 200;
+    color: black;
 
 }
 

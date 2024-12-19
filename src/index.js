@@ -7,8 +7,27 @@ let List = JSON.parse(localStorage.getItem(`List`));
 let EmptyToDo = JSON.parse(localStorage.getItem(`EmptyToDo`));
 
 DomArrange();
+BasicLayout();
 
-RenderFullList();
+function BasicLayout(){
+
+
+    let TopBar = document.createElement(`div`);
+    let SideBar = document.createElement(`div`);
+
+
+    TopBar.classList.add(`top-bar`);
+    document.getElementById(`content`).appendChild(TopBar);
+
+    SideBar.classList.add(`side-bar`);
+    document.getElementById(`content`).appendChild(SideBar);
+
+
+}
+
+
+
+
 
 
 function RenderFullList(){
@@ -91,19 +110,39 @@ InputFields.innerHTML = `<div class="full-project-field">
 
     if(Meter === true){
 
-    document.getElementById(`content`).appendChild(InputFields);
-    CreationOfTodo(InputFields,Meter);
-    Meter = false;
+        document.getElementById(`content`).appendChild(InputFields);
+        CreationOfTodo();  
+
+   /* CreationOfTodo(InputFields,Meter);
+    Meter = false;*/
     }
    
 });
 }
 
+
+/*
+function TurnOffThePage(){
+
+    if(document.body.style.pointerEvents === 'auto'){
+
+    document.body.style.pointerEvents = 'none'}else{
+
+        document.body.style.pointerEvents = 'auto'
+
+    }
+
+
+
+}*/
+
 function CreationOfTodo(InputFields){
 
 document.querySelector(`.enter-button`).addEventListener(`click`,()=>{
 
-let ProjectName  = document.querySelector(`.input-projectName`).value;
+if(document.querySelector(`.input-projectName`).value.length < 26){
+
+    let ProjectName  = document.querySelector(`.input-projectName`).value;
 
 let NewObject = new ProjectCreation(ProjectName);
 
@@ -117,6 +156,13 @@ document.getElementById(`content`).removeChild(InputFields);
 }else{
 
     alert(`Enter Valid Project Name`);
+
+}
+
+
+}else{
+
+    alert(`Write Shorter Name`);
 
 }
 
