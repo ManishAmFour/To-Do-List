@@ -1,6 +1,8 @@
 import { ProjectCreation, ToDoList} from "./document.js";
 import './styles.css';
 import DisplaySpecificTodo from "./SpecificPresentation.js";
+import DeleteImageSrc from './delete.png'
+import { tr } from "date-fns/locale";
 //import {  format, formatDistance, formatRelative, subDays } from 'date-fns'
 
 let List = JSON.parse(localStorage.getItem(`List`));
@@ -20,6 +22,7 @@ function BasicLayout(){
     document.getElementById(`content`).appendChild(TopBar);
 
     SideBar.classList.add(`side-bar`);
+    SideBar.innerHTML = `<div class="new-button">Menu buttons</div>`
     document.getElementById(`content`).appendChild(SideBar);
 
 
@@ -96,51 +99,61 @@ if(EmptyToDo === null){
 }
 
 let Meter = true;
+let DefaultValue = false;
 
 function DomArrange(){
 
 document.querySelector(`.create-button`).addEventListener(`click`,()=>{
 
+
 let InputFields = document.createElement(`div`);
 InputFields.innerHTML = `<div class="full-project-field">
-<input class="input-projectName input-fields">
+<input class="input-projectName input-fields" maxlength="17" >
 <button class="enter-button">Enter</button>
 </div>`
 
 
-    if(Meter === true){
+    if(Meter === true || DefaultValue === true){
 
         document.getElementById(`content`).appendChild(InputFields);
-        CreationOfTodo();  
+        ToggleThePage();
 
-   /* CreationOfTodo(InputFields,Meter);
-    Meter = false;*/
+    CreationOfTodo(InputFields,Meter,DefaultValue);
+    Meter = false;
     }
    
 });
 }
 
+function ToggleThePage(){
 
-/*
-function TurnOffThePage(){
+    document.querySelectorAll(`.default-button`).forEach((button)=>{
 
-    if(document.body.style.pointerEvents === 'auto'){
+        if(button.style.pointerEvents === 'none'){
 
-    document.body.style.pointerEvents = 'none'}else{
-
-        document.body.style.pointerEvents = 'auto'
-
-    }
+            button.style.pointerEvents = 'auto';
 
 
+        }else{
 
-}*/
+            button.style.pointerEvents = 'none';
 
-function CreationOfTodo(InputFields){
+
+        }
+
+
+       })
+
+
+
+}
+
+
+function CreationOfTodo(InputFields,DefaultValue){
 
 document.querySelector(`.enter-button`).addEventListener(`click`,()=>{
 
-if(document.querySelector(`.input-projectName`).value.length < 26){
+if(List.length <= 9){
 
     let ProjectName  = document.querySelector(`.input-projectName`).value;
 
@@ -150,21 +163,27 @@ if(ProjectName !== ``){
 
 List.push(NewObject);
 SavingTheList();
+
 RenderProjects();
 Meter = true;
 document.getElementById(`content`).removeChild(InputFields);
+ToggleThePage();
+
+
 }else{
 
     alert(`Enter Valid Project Name`);
 
 }
 
-
 }else{
 
-    alert(`Write Shorter Name`);
-
+    alert(`List poori ho gyi bhai`);
+    document.getElementById(`content`).removeChild(InputFields);
+    ToggleThePage();
+    console.log(DefaultValue)
 }
+
 
 
 
@@ -179,25 +198,44 @@ localStorage.setItem(`List`, JSON.stringify(List));
 }
 
 RenderProjects();
+ProjectTitleManu();
+
+function ProjectTitleManu(){
+
+    let ProjectTitle = document.createElement(`div`);
+    ProjectTitle.innerText = `Project Title`;
+    ProjectTitle.classList.add(`project-upper`)
+    document.body.appendChild(ProjectTitle);
+
+}
 
 function RenderProjects(){
 
     let BigDiv = ``;
+   
 
     List.forEach((element,index1)=>{
 
         BigDiv += `<div class="Project Project-${index1}" data-project-id="${index1}" >
         <div class="element-name" data-project-id = "${index1}">${element.ProjectName}</div>
-        <button class="show-button" data-project-id = "${index1}" data-project-number ="${element.ProjectName}" >Show</button>
-        <button class="delete-button" data-project-id = "${index1}" data-project-number ="${element.ProjectName}">Delete</button>
+        <button class="delete-button" data-project-id = "${index1}" data-project-number ="${element.ProjectName}"></button>
         </div>`;
 
     })
 
 
-document.querySelector(`.project-list`).innerHTML = `${BigDiv}`;
-DisplaySpecificTodo(List);
+document.querySelector(`.project-list`).innerHTML = BigDiv;
+document.querySelectorAll(`.delete-button`).forEach((button)=>{
+
+    let DeleteImage = document.createElement('img');
+    DeleteImage.src = DeleteImageSrc;
+    DeleteImage.classList.add('delete-img-button')
+
+    button.appendChild(DeleteImage);
+
+})
 ProjectDeletion();
+
 
 }
 
