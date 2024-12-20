@@ -1,12 +1,21 @@
 import { el } from "date-fns/locale"
 
-export default function DisplaySpecificTodo(List){
+
+export function DefaultList(){
+
+  document.querySelector(`.current-project-name`).innerText = `Default Projects`;
 
 
-document.querySelectorAll(`.show-button`).forEach((Show)=>{
+}
 
-Show.addEventListener(`click`,()=>{
 
+export default function DisplaySpecificTodo(innerText){
+
+
+  document.querySelector(`.current-project-name`).innerText = `${innerText}`;
+
+
+  /*
 List.forEach((element)=>{
 
 
@@ -67,12 +76,12 @@ List.forEach((element)=>{
 
 
 
-})
+})*/
 
 
-})
 
-})
+
+
 
 
 }

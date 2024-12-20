@@ -3,7 +3,12 @@ import './styles.css';
 import DisplaySpecificTodo from "./SpecificPresentation.js";
 import DeleteImageSrc from './delete.png'
 import { tr } from "date-fns/locale";
+
+import { DefaultList } from "./SpecificPresentation.js";
 //import {  format, formatDistance, formatRelative, subDays } from 'date-fns'
+
+
+DefaultList();
 
 let List = JSON.parse(localStorage.getItem(`List`));
 let EmptyToDo = JSON.parse(localStorage.getItem(`EmptyToDo`));
@@ -87,6 +92,8 @@ function RenderFullList(){
 
 
 
+
+
 if(List === null){
 
 List = [];
@@ -118,38 +125,84 @@ InputFields.innerHTML = `<div class="full-project-field">
         document.getElementById(`content`).appendChild(InputFields);
         ToggleThePage();
 
-    CreationOfTodo(InputFields,Meter,DefaultValue);
+    CreationOfTodo(InputFields,Meter);
     Meter = false;
+
+
     }
    
 });
 }
 
+
 function ToggleThePage(){
 
-    document.querySelectorAll(`.default-button`).forEach((button)=>{
+document.querySelectorAll(`.default-button`).forEach((button)=>{
 
-        if(button.style.pointerEvents === 'none'){
+    if(!button.classList.contains(`display-none`)){
 
-            button.style.pointerEvents = 'auto';
+    button.classList.add(`display-none`);
+    }else{
+
+        button.classList.remove(`display-none`);
+
+    }
+
+})
+
+    if(!document.querySelector(`.new-button`).classList.contains(`display-none`)){
 
 
-        }else{
-
-            button.style.pointerEvents = 'none';
+        document.querySelector(`.new-button`).classList.add(`display-none`);
 
 
-        }
+    }
+ 
 
 
-       })
+document.querySelectorAll(`.project-list`).forEach((project)=>{
+
+    if(!project.classList.contains(`display-none`)){
+
+    project.classList.add(`display-none`)}else{
+
+        project.classList.remove(`display-none`)
+
+    }
+
+
+})
+
+
+if(!document.querySelector(`.project-upper`).classList.contains(`display-none`)){
+    document.querySelector(`.project-upper`).classList.add(`display-none`);
+
+}else{
+
+    document.querySelector(`.project-upper`).classList.remove(`display-none`);
+
+
+
+}
+
+if(!document.querySelector(`.Project-header`).classList.contains(`display-none`)){
+
+    document.querySelector(`.Project-header`).classList.add(`display-none`);
+
+
+}else{
+
+    document.querySelector(`.Project-header`).classList.remove(`display-none`);
 
 
 
 }
 
 
-function CreationOfTodo(InputFields,DefaultValue){
+}
+
+
+function CreationOfTodo(InputFields){
 
 document.querySelector(`.enter-button`).addEventListener(`click`,()=>{
 
@@ -165,6 +218,9 @@ List.push(NewObject);
 SavingTheList();
 
 RenderProjects();
+
+
+
 Meter = true;
 document.getElementById(`content`).removeChild(InputFields);
 ToggleThePage();
@@ -181,7 +237,7 @@ ToggleThePage();
     alert(`List poori ho gyi bhai`);
     document.getElementById(`content`).removeChild(InputFields);
     ToggleThePage();
-    console.log(DefaultValue)
+   DefaultValue = true;
 }
 
 
@@ -225,6 +281,7 @@ function RenderProjects(){
 
 
 document.querySelector(`.project-list`).innerHTML = BigDiv;
+
 document.querySelectorAll(`.delete-button`).forEach((button)=>{
 
     let DeleteImage = document.createElement('img');
@@ -235,6 +292,25 @@ document.querySelectorAll(`.delete-button`).forEach((button)=>{
 
 })
 ProjectDeletion();
+
+document.querySelectorAll(`.Project`).forEach((Project)=>{
+
+
+    Project.addEventListener(`click`,()=>{
+
+        let innerText = Project.innerText;
+
+        DisplaySpecificTodo(innerText);
+    
+
+
+    
+    })
+
+
+    
+
+})
 
 
 }
