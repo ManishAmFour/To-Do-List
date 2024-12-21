@@ -10,7 +10,7 @@ import { tr } from "date-fns/locale";
 let List = JSON.parse(localStorage.getItem(`List`));
 let EmptyToDo = JSON.parse(localStorage.getItem(`EmptyToDo`));
 
-DefaultList(List);
+//DefaultList(List);
 
 
 DomArrange();
