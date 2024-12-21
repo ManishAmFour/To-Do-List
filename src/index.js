@@ -2,16 +2,16 @@ import { ProjectCreation, ToDoList} from "./document.js";
 import './styles.css';
 import DisplaySpecificTodo from "./SpecificPresentation.js";
 import DeleteImageSrc from './delete.png'
-import { tr } from "date-fns/locale";
 
 import { DefaultList } from "./SpecificPresentation.js";
+import { tr } from "date-fns/locale";
 //import {  format, formatDistance, formatRelative, subDays } from 'date-fns'
-
-
-DefaultList();
 
 let List = JSON.parse(localStorage.getItem(`List`));
 let EmptyToDo = JSON.parse(localStorage.getItem(`EmptyToDo`));
+
+DefaultList(List);
+
 
 DomArrange();
 BasicLayout();
@@ -322,22 +322,56 @@ function AdditionOfToDo(){
 let Meter = true;
 
 document.querySelector(`.create-todo-button`).addEventListener(`click`,()=>{
+    
+    console.log(List);
+
+    if(List.length !== 0){
+
+     
+
 
         let InputProject = document.createElement(`select`);
+        InputProject.classList.add(`todo-element`);
+
         let InputTitle = document.createElement(`input`);
+        InputTitle.setAttribute('maxlength',17);
+        InputTitle.classList.add(`todo-element`)
+        InputTitle.classList.add(`input-title`)
+
         let InputDescription = document.createElement(`input`);
+        InputDescription.setAttribute('maxlength',55);
+
+        InputDescription.classList.add(`todo-element`)
+        InputDescription.classList.add(`input-description`)
+
         let InputDueDate = document.createElement(`input`);
+        InputDueDate.classList.add(`todo-element`)
+        InputDueDate.classList.add(`input-duedate`)
         InputDueDate.type = "date";
 
-        let InputNotes = document.createElement(`input`);
-        let InputPriority = document.createElement(`input`);
+      
+
+        let InputPriority = document.createElement(`select`);
+        InputPriority.innerHTML = `<option>
+        High
+        </option>
+        <option>
+        Medium
+        </option>
+        <option>
+        Low
+        </option>
+        `;
+        InputPriority.classList.add(`todo-element`)
+        InputPriority.classList.add(`input-priority`)
+
         let EnterButton = document.createElement(`button`);
-        EnterButton.innerHTML = `<div class="enter-button-todo">Enter</div>`;
+        EnterButton.innerText = `Enter`;
+        EnterButton.classList.add(`enter-button-input`)
        
     InputProject.classList.add(`project-select`);
 
     let OptionSelector = ``;
-
 
     List.forEach((element)=>{
 
@@ -347,98 +381,88 @@ document.querySelector(`.create-todo-button`).addEventListener(`click`,()=>{
 
     })
     
-InputProject.innerHTML = OptionSelector;
+    InputProject.innerHTML = OptionSelector;
+    ToggleThePage();
 
+    if(Meter === true){
 
-document.querySelector(`.create-button`).classList.add(`display-none`);
-document.querySelector(`.list-div`).classList.add(`display-none`);
+    document.querySelector(`.Project-display`).appendChild(InputProject);
 
-document.querySelectorAll(`.project-list`).forEach((List)=>{
+    document.querySelector(`.Project-display`).appendChild(InputTitle);
+    document.querySelector(`.Project-display`).appendChild(InputDescription);
+    document.querySelector(`.Project-display`).appendChild(InputDueDate);
+    document.querySelector(`.Project-display`).appendChild(InputPriority);
+    document.querySelector(`.Project-display`).appendChild(EnterButton);
 
-    List.classList.add(`display-none`);
-
-
-})
-
-document.querySelectorAll(`.full-project-field`).forEach((Input)=>{
-
-    Input.classList.add(`display-none`);
-
-
-
-})
-
-
-if(Meter === true){
-
-    document.getElementById(`content`).appendChild(InputProject);
-    document.getElementById(`content`).appendChild(InputTitle);
-    document.getElementById(`content`).appendChild(InputDescription);
-    document.getElementById(`content`).appendChild(InputDueDate);
-    document.getElementById(`content`).appendChild(InputNotes);
-    document.getElementById(`content`).appendChild(InputPriority);
-    document.getElementById(`content`).appendChild(EnterButton);
+  
 
 
     Meter = false;
 
-}
- 
-      document.querySelector(`.enter-button-todo`).addEventListener(`click`,()=>{
-        
-    if(InputTitle.value !== `` && InputDescription.value !== `` && InputDueDate.value !== `` && InputNotes.value !== `` && InputPriority.value !== ``){
-
-    let NewObject = new ToDoList(InputTitle.value,InputDescription.value,InputDueDate.value,InputNotes.value,InputPriority.value);
-
-     List.forEach((Individual)=>{
-
-        if(InputProject.value === Individual.ProjectName){
-
-         Individual.Array.push(NewObject);
-            SavingTheList();
-        
-        }
-
-
-       })
-
-       document.querySelector(`.create-button`).classList.remove(`display-none`);
-       document.querySelector(`.list-div`).classList.remove(`display-none`);
-
-
-
-       document.querySelectorAll(`.project-list`).forEach((List)=>{
-       
-           List.classList.remove(`display-none`);
-       
-       
-       })
-       
-
-  
-       
-       document.getElementById(`content`).removeChild(InputTitle);
-       document.getElementById(`content`).removeChild(InputDescription);
-       document.getElementById(`content`).removeChild(InputDueDate);
-       document.getElementById(`content`).removeChild(InputNotes);
-       document.getElementById(`content`).removeChild(InputPriority);
-       document.getElementById(`content`).removeChild(EnterButton);
-
-
-       
-
     }
-   else{
-    
-    alert(`Entert The input first`);
+
+    document.querySelectorAll(`.enter-button-input`).forEach((button)=>{
+
+    button.addEventListener(`click`,()=>{
+
+        if(InputTitle.value !== `` && InputDescription.value !== `` && InputDueDate.value !== `` && InputPriority.value !== ``){
+
+        
+            let NewObject = new ToDoList(InputTitle.value,InputDescription.value,InputDueDate.value,InputPriority.value);
+        
+             List.forEach((Individual)=>{
+        
+                if(InputProject.value === Individual.ProjectName){
+        
+                 Individual.Array.push(NewObject);
+                    SavingTheList();
+                
+                }
+        
+        
+               })
+        
+             
+        
+        
+          
+               
+
+            document.querySelector(`.Project-display`).removeChild(InputProject);
+            document.querySelector(`.Project-display`).removeChild(InputTitle);
+            document.querySelector(`.Project-display`).removeChild(InputDescription);
+            document.querySelector(`.Project-display`).removeChild(InputDueDate);
+            document.querySelector(`.Project-display`).removeChild(InputPriority);
+            document.querySelector(`.Project-display`).removeChild(EnterButton);
+                
+
+        ToggleThePage();
+        console.log(List);
+            Meter = true;       
+        
+            }
+           else{
+            
+            alert(`Entert The input first`);
+        
+        
+           }
+        
+
+    })
 
 
-   }
+
+    })
+ 
+
+}else{
+
+    alert(`No Projects Found`);
+
+}
 
 
-
-
-})
 
 })
 

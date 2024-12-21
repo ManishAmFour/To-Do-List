@@ -1,10 +1,18 @@
 import { el } from "date-fns/locale"
 
 
-export function DefaultList(){
+export function DefaultList(List){
 
   document.querySelector(`.current-project-name`).innerText = `Default Projects`;
 
+  List.forEach((project)=>{
+
+    let ProjectSummary = document.createElement(`div`);
+    ProjectSummary.innerHTML = `<div>${project.ProjectName}</div>`
+
+    document.querySelector(`.Project-display`).appendChild(ProjectSummary);
+
+  })
 
 }
 
